@@ -503,7 +503,7 @@ function Tweaked_BBR {
     echo "deb http://deb.debian.org/debian bullseye-backports main" | sudo tee -a /etc/apt/sources.list
     apt-get -qqy update && apt -qqyt bullseye-backports upgrade
     fi
-    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/BBR.sh && chmod +x BBR.sh
+    wget https://raw.githubusercontent.com/wsrlanxue/Seedbox-Components/main/Miscellaneous/BBR/BBR.sh && chmod +x BBR.sh
     ## Install tweaked BBR automatically on reboot
     cat << EOF > /etc/systemd/system/bbrinstall.service
 [Unit]
