@@ -567,7 +567,7 @@ function Deluge_libtorrent {
     "send_buffer_watermark_factor": 250, 
     "piece_timeout": 20, 
     "active_tracker_limit": -1, 
-    "send_buffer_low_watermark": 10485740, 
+    "send_buffer_low_watermark": 10485760, 
     "send_socket_buffer_size": 3145728, 
     "mixed_mode_algorithm": 0, 
     "max_queued_disk_bytes": 20971520, 
