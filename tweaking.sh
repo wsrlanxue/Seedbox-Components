@@ -16,7 +16,7 @@ energy_perf_bias=performance
 min_perf_pct=100
 
 [disk]
-readahead=4096
+readahead=12288
 
 [bootloader]
 cmdline=skew_tick=1
@@ -32,9 +32,9 @@ function NIC_Tweaking {
     normal_1; echo "Optimizing NIC Configuration"
     warn_1; echo "Some Configurations might not be supported by the NIC"; warn_2
     interface=$(ip -o -4 route show to default | awk '{print $5}')
-    ethtool -G $interface rx 1024
+    ethtool -G $interface rx 2048
     sleep 1
-    ethtool -G $interface tx 2048
+    ethtool -G $interface tx 4096
     sleep 1
     ethtool -K $interface tso off gso off
     sleep 1
@@ -123,12 +123,12 @@ function kernel_Tweaking {
         tcp_rmem='4194304 33554432 67108864'
         tcp_wmem='4194304 67108864 134217728'
     else
-        rmem_default=16777216
-        rmem_max=33554432
-        wmem_default=16777216
-        wmem_max=33554432
-        tcp_rmem='4194304 16777216 33554432'
-        tcp_wmem='4194304 16777216 33554432'
+        rmem_default=33554432
+        rmem_max=67108864
+        wmem_default=67108864
+        wmem_max=134217728
+        tcp_rmem='4194304 33554432 67108864'
+        tcp_wmem='4194304 67108864 134217728'
 
     fi
 
@@ -539,18 +539,20 @@ function Deluge_libtorrent {
     "connection_speed": 500, 
     "connections_limit": 500000, 
     "guided_read_cache": true, 
-    "max_rejects": 100, 
-    "inactivity_timeout": 120, 
+    "max_rejects": 75, 
+    "inactivity_timeout": 60, 
     "active_seeds": -1, 
-    "max_failcount": 20, 
+    "max_failcount": 10, 
     "allowed_fast_set_size": 0, 
+    "recv_socket_buffer_size": 2097152,
     "max_allowed_in_request_queue": 10000, 
+    "max_http_recv_buffer_size": 4194304, 
     "enable_incoming_utp": false, 
     "unchoke_slots_limit": -1, 
-    "peer_timeout": 120, 
+    "peer_timeout": 40, 
     "peer_connect_timeout": 30,
     "handshake_timeout": 30,
-    "request_timeout": 5, 
+    "request_timeout": 10, 
     "allow_multiple_connections_per_ip": true, 
     "use_parole_mode": false, 
     "piece_timeout": 5, 
@@ -561,16 +563,20 @@ function Deluge_libtorrent {
     "cache_expiry": 300, 
     "seed_choking_algorithm": 1, 
     "max_out_request_queue": 10000, 
-    "send_buffer_watermark": 10485760, 
-    "send_buffer_watermark_factor": 200, 
+    "send_buffer_watermark": 41943040, 
+    "send_buffer_watermark_factor": 250, 
+    "piece_timeout": 20, 
     "active_tracker_limit": -1, 
-    "send_buffer_low_watermark": 3145728, 
+    "send_buffer_low_watermark": 10485740, 
+    "send_socket_buffer_size": 3145728, 
     "mixed_mode_algorithm": 0, 
-    "max_queued_disk_bytes": 10485760, 
-    "min_reconnect_time": 2,  
-    "aio_threads": 4, 
+    "max_queued_disk_bytes": 20971520, 
+    "min_reconnect_time": 1,  
+    "aio_threads": 8, 
+    "aio_max": 1000, 
+    "explicit_read_cache": true, 
     "write_cache_line_size": 256, 
-    "torrent_connect_boost": 100, 
+    "torrent_connect_boost": 200, 
     "listen_queue_size": 3000, 
     "cache_buffer_chunk_size": 256, 
     "suggest_mode": 1, 
